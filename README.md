@@ -78,7 +78,7 @@ This project is a web application built with Express.js on the backend and React
 
 7.  **Start the frontend development server:**
     ```bash
-    npm start
+    npm run dev
     ```
     The frontend application will typically run on `http://localhost:5173`.
 
