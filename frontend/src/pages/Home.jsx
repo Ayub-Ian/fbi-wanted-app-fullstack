@@ -1,3 +1,4 @@
+import ApiWantedFilters from "@/components/Filter";
 import WantedList from "@/components/WantedList";
 import { useLoaderData } from "react-router";
 
@@ -14,6 +15,7 @@ function WantedListPage() {
         <aside className="z-30 border-r min-w-48 border-b border-pepper relative p-4 shrink basis-[25%]">
           <div className="max-h-[90dvh] pb-6 sticky overflow-y top-24">
             <p>Filters</p>
+            <ApiWantedFilters />
           </div>
         </aside>
         <section className="flex-1 max-w-none min-w-28 relative">

@@ -1,78 +1,77 @@
 import { getWantedList } from "@/data/data";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
-const WantedList = ({ wanted }) => {
-  console.log({ wanted });
+const WantedList = ({ wanted: initialWanted }) => {
+  const [searchParams] = useSearchParams();
   const [page, setPage] = useState(1);
-  const [data, setData] = useState(wanted.items);
+  const [data, setData] = useState(initialWanted.items);
+  const [hasMore, setHasMore] = useState(
+    initialWanted.total > initialWanted.items.length,
+  );
+  const [loadingInitial, setLoadingInitial] = useState(false);
 
-  const fetchData = async (pageNum) => {
+  const fetchData = async (pageNum, currentSearchParams) => {
     try {
-      const res = await getWantedList(pageNum);
-      setData((prevItems) => [...prevItems, ...res.items]);
+      const res = await getWantedList(
+        pageNum,
+        Object.fromEntries(currentSearchParams),
+      );
+      const newItems = res.items || [];
+
+      setData((prevItems) => {
+        const uniqueNewItems = newItems.filter(
+          (newItem) =>
+            !prevItems.some((existingItem) => existingItem.uid === newItem.uid),
+        );
+        return [...prevItems, ...uniqueNewItems];
+      });
+      setHasMore(res.total > data.length + (res.items ? res.items.length : 0));
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching more data:", error);
     }
   };
 
   const handleLoadMoreData = () => {
     setPage((prevPage) => {
       const nextPage = prevPage + 1;
-      fetchData(nextPage);
+      fetchData(nextPage, searchParams);
       return nextPage;
     });
   };
 
-  // const [persons, setPersons] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-  // const [page, setPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(0);
+  useEffect(() => {
+    setPage(1);
+    setData(initialWanted.items);
+    setHasMore(initialWanted.total > initialWanted.items.length);
+    setLoadingInitial(true);
 
-  // useEffect(() => {
-  //   const fetchPersons = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const data = await getWantedList({ page, pageSize: 20 });
-  //       setPersons(data.items || []);
-  //       setTotalPages(Math.ceil((data.total || 0) / 20));
-  //     } catch (err) {
-  //       setError("Failed to load wanted list");
-  //       console.error(err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+    const fetchInitialDataWithFilters = async () => {
+      try {
+        const res = await getWantedList(1, Object.fromEntries(searchParams));
+        setData(res.items);
+        setHasMore(res.total > res.items.length);
+      } catch (error) {
+        console.error("Error fetching initial data with filters:", error);
+      } finally {
+        setLoadingInitial(false);
+      }
+    };
 
-  //   fetchPersons();
-  // }, [page]);
+    fetchInitialDataWithFilters();
+  }, [searchParams, initialWanted.items, initialWanted.total]);
 
-  // const handlePrevPage = () => {
-  //   if (page > 1) {
-  //     setPage(page - 1);
-  //   }
-  // };
-
-  // const handleNextPage = () => {
-  //   if (page < totalPages) {
-  //     setPage(page + 1);
-  //   }
-  // };
-
-  // if (loading && persons.length === 0)
-  //   return <div className="loading">Loading...</div>;
-  // if (error) return <div className="error">{error}</div>;
-  if (wanted.items.length === 0)
+  if (data.length === 0 && !loadingInitial) {
     return <div className="error">No persons found</div>;
+  }
 
   return (
     <div>
       <InfiniteScroll
         dataLength={data.length}
         next={handleLoadMoreData}
-        hasMore={wanted.total > data.length}
+        hasMore={hasMore}
         loader={<p>Loading...</p>}
         endMessage={<p>No more data to load.</p>}
       >
