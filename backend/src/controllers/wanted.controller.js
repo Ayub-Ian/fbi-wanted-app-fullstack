@@ -11,14 +11,8 @@ async function getWantedList(req, res) {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
 
-  // try {
-  //   const data = await wantedService.getPaginatedResults(page, limit);
-  //   res.json(data);
-  // } catch (err) {
-  //   res.status(500).json({ error: "Failed to fetch wanted data" });
-  // }
   try {
-    const queryKey = new URLSearchParams(req.query).toString(); // "page=1&sort=name"
+    const queryKey = new URLSearchParams(req.query).toString();
     let data = getCachedPage(queryKey);
 
     if (!data) {

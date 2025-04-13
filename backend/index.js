@@ -2,8 +2,6 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const wantedRoutes = require("./src/routes/wanted.route");
-const warmUpFbiCache = require("./src/utils/warmUpCache");
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
 const PORT = 3030;
