@@ -1,4 +1,9 @@
-const { getCachedPage, cachePage } = require("../services/cache");
+const {
+  getCachedPage,
+  cachePage,
+  getCachedObject,
+  cacheObject,
+} = require("../services/cache");
 const wantedService = require("../services/wanted.service");
 const { applyFilters } = require("../utils/helper.utils");
 
@@ -33,10 +38,24 @@ async function getWantedList(req, res) {
 }
 
 async function getWantedItem(req, res) {
-  const { id } = req.params;
-  const item = await wantedService.getWantedById(id);
-  if (!item) return res.status(404).json({ message: "Not found" });
-  res.json(item);
+  try {
+    const { id } = req.params;
+    let obj = getCachedObject(id);
+
+    if (!obj) {
+      obj = await wantedService.getById(id);
+      cacheObject(id, obj);
+    }
+
+    res.json(obj);
+  } catch (err) {
+    if (err.code === 404) {
+      res.status(404).json({ error: "Object not found" });
+    } else {
+      console.error(err);
+      res.status(503).json({ error: "Failed to fetch wanted object" });
+    }
+  }
 }
 
 module.exports = { getWantedList, getWantedItem };
