@@ -4,7 +4,7 @@ This project is a web application built with Express.js on the backend and React
 
 ## Features
 
-### 3.1.1. Fetching Data
+### 1.1. Fetching Data
 
 * Fetches a list of wanted persons from the [FBI Wanted API](https://www.fbi.gov/wanted/api).
 * Displays relevant information for each wanted person, including:
@@ -13,7 +13,7 @@ This project is a web application built with Express.js on the backend and React
     * Image
 * Implements **pagination** to handle a large number of results, improving initial load time and user experience.
 
-### 3.1.2. Search & Filter
+### 1.2. Search & Filter
 
 * **Search:** Allows users to search for wanted persons based on various parameters supported by the FBI Wanted API, such as:
     * Name
@@ -24,7 +24,7 @@ This project is a web application built with Express.js on the backend and React
     * Person Classification
     * Race
 
-### 3.1.3. Detailed View
+### 1.3. Detailed View
 
 * Allows users to select a wanted person from the list to view a dedicated detail page.
 * The detail page displays comprehensive information, including:
@@ -35,7 +35,7 @@ This project is a web application built with Express.js on the backend and React
     * Field Offices
 * Includes an **"Additional Information"** panel that displays external links provided in the API response.
 
-### 3.1.4. Backend Integration
+### 1.4. Backend Integration
 
 * Exposes a simple backend endpoint `/api/wanted` built with Express.js.
 * This backend endpoint acts as a **proxy** to the FBI Wanted API, handling requests from the frontend.
