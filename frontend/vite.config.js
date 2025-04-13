@@ -6,6 +6,8 @@ import * as path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   server: {
+    host: true,
+    port: 5173,
     cors: {
       origin: "http://localhost:3030",
     },

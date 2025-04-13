@@ -1,3 +1,5 @@
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
 export async function wantedListLoader({ request }) {
   const url = new URL(request.url);
   const pageNum = url.searchParams.get("page") || 1;
@@ -24,7 +26,7 @@ export async function getWantedList(pageNum = 1, filters = {}) {
   const params = { page: pageNum, ...filters };
   const query = new URLSearchParams(params).toString();
   try {
-    const res = await fetch(`http://localhost:3030/api/wanted?${query}`);
+    const res = await fetch(`${apiUrl}/wanted?${query}`);
     return res.json();
   } catch (error) {
     console.log(error.message);
@@ -33,7 +35,7 @@ export async function getWantedList(pageNum = 1, filters = {}) {
 
 export async function getWantedPerson(id) {
   try {
-    const res = await fetch(`http://localhost:3030/api/wanted/${id}`);
+    const res = await fetch(`${apiUrl}/wanted/${id}`);
     return res.json();
   } catch (error) {
     console.log(error.message);
