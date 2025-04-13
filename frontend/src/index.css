@@ -26,6 +26,11 @@
     grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
 }
 
+.detailed-item h3 {
+    text-transform: uppercase;
+    color: var(--color-pepper);
+}
+
 @media screen and (max-width: 991px) {
     .card-grid_list {
         grid-template-columns: 1fr 1fr 1fr 1fr;
