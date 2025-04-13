@@ -2,6 +2,17 @@
 
 This project is a web application built with Express.js on the backend and React on the frontend to fetch, display, search, and filter information about wanted persons from the FBI Wanted API. It also features a detailed view for individual records and basic caching on the backend.
 
+## Prerequisites
+
+Before you can run or develop this project, ensure you have the following installed on your system:
+
+* [**Node.js**](https://nodejs.org/) (Version 18 was used)
+* **npm** (comes bundled with Node.js)
+* [**Docker**](https://docs.docker.com/get-docker/)
+* [**Docker Compose**](https://docs.docker.com/compose/install/)
+* [**Git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) (For cloning the repository and version control)
+
+
 ## Features
 
 ### 1.1. Fetching Data
@@ -46,8 +57,8 @@ This project is a web application built with Express.js on the backend and React
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository_url> fbi-wanted-explorer
-    cd fbi-wanted-explorer
+    git clone <repository_url> <your-repository-directory>
+    cd <your-repository-directory>
     ```
 
 2.  **Navigate to the backend directory:**
@@ -81,6 +92,47 @@ This project is a web application built with Express.js on the backend and React
     npm run dev
     ```
     The frontend application will typically run on `http://localhost:5173`.
+
+
+
+## Running the Application with Docker Compose
+
+This guide outlines how to run the frontend (React Vite) and backend (Express) applications using Docker Compose. Docker Compose simplifies the process of setting up and running multi-container applications.
+
+### Setup
+
+1.  **Clone the Repository:**
+
+    ```bash
+    git clone <repository_url> <your-repository-directory>
+    cd <your-repository-directory>
+    ```
+### Running the Application
+
+1.  **Build and Start the Containers:**
+
+    Navigate to the root directory of your project (where the `docker-compose.yml` file is located) and run the following command:
+
+    ```bash
+    docker-compose up -d --build
+    ```
+
+    * `-d`: Runs the containers in detached mode (in the background).
+    * `--build`: Builds the Docker images if they don't exist or if the `Dockerfile` or context files have changed. This ensures you're using the latest code.
+
+2.  **Access the Application:**
+
+    * **Frontend:** Open your web browser and go to `http://localhost:80`.
+        * **Important:** The frontend is served by Nginx within the container. Therefore, you access it on port 80, not the Vite development server's default port (5173).
+    * **Backend:** The backend API will be accessible at `http://localhost:3030/api` (or any other routes you've defined in your Express application).
+
+### Stopping the containerized application
+
+To stop and remove the running containers, execute the following command in the project's root directory:
+
+```bash
+docker-compose down
+```
 
 ## Usage
 
