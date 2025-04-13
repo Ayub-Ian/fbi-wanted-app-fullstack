@@ -1,45 +1,11 @@
-// import { getWantedPerson } from "@/data/mock";
 import DOMPurify from "dompurify";
-import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router";
 
-const WantedDetails = ({ personId }) => {
+const WantedDetails = () => {
   const wantedPerson = useLoaderData();
 
-  const [person, setPerson] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchPerson = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError(null);
-  //       const data = await getWantedPerson(personId);
-
-  //       // Check if we have person data with required fields
-  //       if (!data || !data.title) {
-  //         throw new Error("Invalid person data received");
-  //       }
-
-  //       setPerson(data);
-  //     } catch (err) {
-  //       console.error("Error fetching person data:", err);
-  //       setError("Failed to load wanted person details");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchPerson();
-  // }, [personId]);
-
-  // if (loading)
-  //   return <div className="loading">Loading wanted person details...</div>;
-  // if (error) return <div className="error">{error}</div>;
   if (!wantedPerson) return <div className="error">No person data found</div>;
 
-  // Safely extract person data with defaults
   const {
     title = "Unknown Person",
     images = [],
@@ -72,8 +38,6 @@ const WantedDetails = ({ personId }) => {
   } = wantedPerson;
 
   const mainImage = images[0]?.url || "";
-  const fingerprints =
-    images.filter((img) => img.caption?.includes("fingerprint")) || [];
   const datePublished = publication
     ? new Date(publication).toLocaleDateString()
     : "Unknown";
