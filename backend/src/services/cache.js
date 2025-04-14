@@ -1,6 +1,6 @@
 const pageCache = new Map(); // key: "page=1&sort=name", value: [results]
 const objectCache = new Map();
-const ttl = 1000 * 60 * 5; // 5 minutes
+const ttl = 1000 * 60 * 60 * 24; // 24 hrs
 
 function getCachedPage(key) {
   const cached = pageCache.get(key);
