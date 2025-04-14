@@ -1,3 +1,4 @@
+import hero from "../assets/detective-desk.jpg";
 import ApiWantedFilters from "@/components/Filter";
 import WantedList from "@/components/WantedList";
 import { useLoaderData } from "react-router";
@@ -7,8 +8,18 @@ function WantedListPage() {
 
   return (
     <div className="w-full min-h-screen bg-oat">
-      <section className="min-h-96">
-        <h1>Danger Dossier</h1>
+      <section className="min-h-96 relative flex items-center justify-center ">
+        <div className="absolute inset-0">
+          <img
+            src={hero}
+            className="h-full bg-no-repeat object-center object-fill w-full"
+          />
+        </div>
+
+        <div className="z-50 text-center">
+          <h1 className="z-10 text-4xl font-semibold mb-2">Danger Dossier</h1>
+          <p className="z-10 ">Put your detective caps on !!</p>
+        </div>
       </section>
 
       <div className="flex border-t border-pepper mr-auto ml-auto">

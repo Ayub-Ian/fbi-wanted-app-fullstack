@@ -2,10 +2,12 @@ import { getWantedList } from "@/data/data";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useSearchParams } from "react-router";
+import LazyImage from "./LazyImage";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const WantedList = ({ wanted: initialWanted }) => {
   const [searchParams] = useSearchParams();
-  const [page, setPage] = useState(1);
+  const [_, setPage] = useState(1);
   const [data, setData] = useState(initialWanted.items);
   const [hasMore, setHasMore] = useState(
     initialWanted.total > initialWanted.items.length,
@@ -76,9 +78,11 @@ const WantedList = ({ wanted: initialWanted }) => {
         endMessage={<p>No more data to load.</p>}
       >
         <div className="grid card-grid_list wanted-grid_list">
-          {data.map((person) => (
-            <WantedListItem person={person} key={person.uid} />
-          ))}
+          <LazyLoadComponent>
+            {data.map((person) => (
+              <WantedListItem person={person} key={person.uid} />
+            ))}
+          </LazyLoadComponent>
         </div>
       </InfiniteScroll>
     </div>
@@ -92,11 +96,16 @@ function WantedListItem({ person }) {
     <div className=" h-full flex p-4  flex-col items-stretch justify-start border-b border-r border-pepper relative hover:bg-gray-50/60">
       <div className="relative max-h-full h-80  rounded-md overflow-hidden">
         {person.images && (
-          <img
+          <LazyImage
             className="absolute object-center bg-no-repeat inset-0 w-full h-full object-fill"
-            src={person.images[0].original}
+            imageSrc={person.images[0].original}
             alt={person.title}
           />
+          // <img
+          //   className="absolute object-center bg-no-repeat inset-0 w-full h-full object-fill"
+          //   src={person.images[0].original}
+          //   alt={person.title}
+          // />
         )}
       </div>
       <div className="p-4">
