@@ -87,7 +87,13 @@ Before you can run or develop this project, ensure you have the following instal
     npm install
     ```
 
-7.  **Start the frontend development server:**
+7.  **Setup environment variables:**
+    ```bash
+    echo "VITE_API_BASE_URL=http://localhost:3030/api
+    " > .env.local
+    ```
+
+8.  **Start the frontend development server:**
     ```bash
     npm run dev
     ```
