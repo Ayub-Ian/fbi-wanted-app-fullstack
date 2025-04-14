@@ -1,5 +1,6 @@
 import hero from "../assets/detective-desk.jpg";
 import ApiWantedFilters from "@/components/Filter";
+import SearchWantedPersons from "@/components/Search";
 import WantedList from "@/components/WantedList";
 import { useLoaderData } from "react-router";
 
@@ -24,8 +25,8 @@ function WantedListPage() {
 
       <div className="flex border-t border-pepper mr-auto ml-auto">
         <aside className="z-30 border-r min-w-48 border-b border-pepper relative p-4 shrink basis-[25%]">
-          <div className="max-h-[90dvh] pb-6 sticky overflow-y top-24">
-            <p>Filters</p>
+          <div className="max-h-[90dvh] pb-6 sticky overflow-y top-8">
+            <SearchWantedPersons />
             <ApiWantedFilters />
           </div>
         </aside>

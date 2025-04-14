@@ -31,6 +31,12 @@
     color: var(--color-pepper);
 }
 
+.search {
+    background-position-x: 95%;
+    background-position-y: center;
+    background-image: url(https://cdn.prod.website-files.com/61477f2c24a826836f969afe/66f2d24c9a9cfcbfdfbf87aa_search.svg);
+}
+
 @media screen and (max-width: 991px) {
     .card-grid_list {
         grid-template-columns: 1fr 1fr 1fr 1fr;
