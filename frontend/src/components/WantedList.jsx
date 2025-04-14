@@ -101,11 +101,6 @@ function WantedListItem({ person }) {
             imageSrc={person.images[0].original}
             alt={person.title}
           />
-          // <img
-          //   className="absolute object-center bg-no-repeat inset-0 w-full h-full object-fill"
-          //   src={person.images[0].original}
-          //   alt={person.title}
-          // />
         )}
       </div>
       <div className="p-4">

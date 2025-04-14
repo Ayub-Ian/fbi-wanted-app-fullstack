@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import hero from "../assets/detective-desk.jpg";
 import ApiWantedFilters from "@/components/Filter";
 import SearchWantedPersons from "@/components/Search";
@@ -36,12 +37,7 @@ function WantedListPage() {
         </section>
       </div>
 
-      <footer className="app-footer">
-        <p>
-          This application uses FBI Wanted API data for demonstration purposes
-          only.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import DOMPurify from "dompurify";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
+import { FaRegFilePdf } from "react-icons/fa";
+import LazyImage from "./LazyImage";
 
 const WantedDetails = () => {
   const wantedPerson = useLoaderData();
@@ -26,6 +28,7 @@ const WantedDetails = () => {
     reward_text = "",
     remarks = "",
     caution = "",
+    files,
     details = "",
     additional_information = "",
     field_offices = [],
@@ -50,7 +53,7 @@ const WantedDetails = () => {
             <div className="border-r  border-pepper">
               <DetailedItemContainer title="Original photo">
                 {images.length != 0 ? (
-                  <img src={images[0].original} alt={title} className="" />
+                  <LazyImage imageSrc={images[0].original} alt={title} />
                 ) : (
                   <div className="no-photo">No photograph available</div>
                 )}
@@ -64,42 +67,60 @@ const WantedDetails = () => {
               </div>
               <div className="border-b border-pepper">
                 <DetailedItemContainer title="aliases">
-                  {aliases ?? <p>Not specified</p>}
-                  {aliases && Array.isArray(aliases) && aliases.length > 0 && (
+                  {aliases && Array.isArray(aliases) && aliases.length > 0 ? (
                     <ul>
                       {aliases.map((alias, index) => (
                         <li key={index}>{alias}</li>
                       ))}
                     </ul>
+                  ) : (
+                    <p>Not specified</p>
                   )}
                 </DetailedItemContainer>
               </div>
               <div className="border-b border-pepper">
                 <DetailedItemContainer title="field offices">
-                  {field_offices ?? <p>Not specified</p>}
                   {field_offices &&
-                    Array.isArray(field_offices) &&
-                    field_offices.length > 0 && (
-                      <ul>
-                        {field_offices.map((office, index) => (
-                          <li key={index}>{office}</li>
-                        ))}
-                      </ul>
-                    )}
+                  Array.isArray(field_offices) &&
+                  field_offices.length > 0 ? (
+                    <ul>
+                      {field_offices.map((office, index) => (
+                        <li key={index}>{office}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>Not specified</p>
+                  )}
                 </DetailedItemContainer>
               </div>
               <div className="border-b border-pepper">
                 <DetailedItemContainer title="Date of Birth Used">
-                  {dates_of_birth_used ?? <p>Not specified</p>}
                   {dates_of_birth_used &&
-                    Array.isArray(dates_of_birth_used) &&
-                    dates_of_birth_used.length > 0 && (
-                      <ul>
-                        {dates_of_birth_used.map((dob, index) => (
-                          <li key={index}>{dob}</li>
-                        ))}
-                      </ul>
-                    )}
+                  Array.isArray(dates_of_birth_used) &&
+                  dates_of_birth_used.length > 0 ? (
+                    <ul>
+                      {dates_of_birth_used.map((dob, index) => (
+                        <li key={index}>{dob}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>Not specified</p>
+                  )}
+                </DetailedItemContainer>
+              </div>
+              <div className="border-b border-pepper">
+                <DetailedItemContainer title="Subjects">
+                  {subjects &&
+                  Array.isArray(subjects) &&
+                  subjects.length > 0 ? (
+                    <ul>
+                      {subjects.map((subject, index) => (
+                        <li key={index}>{subject}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>Not specified</p>
+                  )}
                 </DetailedItemContainer>
               </div>
             </div>
@@ -111,6 +132,24 @@ const WantedDetails = () => {
                   <p>No specific additional information provided.</p>
                 )}
               </DetailedItemContainer>
+              <DetailedItemContainer title="Files and Documents">
+                {files && Array.isArray(files) && files.length > 0 ? (
+                  <ul>
+                    {files.map((file, index) => (
+                      <Link
+                        className="underline text-blue-700 flex items-center gap-2"
+                        to={file.url}
+                        key={index}
+                      >
+                        <FaRegFilePdf />
+                        {file.name} - {title}
+                      </Link>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Not specified</p>
+                )}
+              </DetailedItemContainer>
             </div>
           </div>
         </div>
@@ -119,11 +158,15 @@ const WantedDetails = () => {
           <div className="grid grid-cols-3">
             <div className="border-r  border-pepper">
               <DetailedItemContainer title="caution">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(caution),
-                  }}
-                />
+                {caution ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(caution),
+                    }}
+                  />
+                ) : (
+                  <p> Not Specified</p>
+                )}
               </DetailedItemContainer>
             </div>
             <div>
@@ -131,7 +174,11 @@ const WantedDetails = () => {
                 {description}
               </DetailedItemContainer>
             </div>
-            <div className="border-l  border-pepper">Information</div>
+            <div className="border-l  border-pepper">
+              <DetailedItemContainer title="remarks">
+                {remarks || "Not Specified"}
+              </DetailedItemContainer>
+            </div>
           </div>
         </div>
         <div className=" border-t border-pepper">
@@ -143,7 +190,7 @@ const WantedDetails = () => {
             </div>
             <div>
               <DetailedItemContainer title="height">
-                <p>{height_max}</p>
+                <p>{nationality || "Not Specified"}</p>
               </DetailedItemContainer>
             </div>
             <div>
@@ -167,6 +214,34 @@ const WantedDetails = () => {
                 <p>{race_raw || "Not specified"}</p>
               </DetailedItemContainer>
             </div>
+          </div>
+        </div>
+        <div className="border-t border-pepper">
+          <DetailedItemContainer title="remarks">
+            {remarks ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(remarks),
+                }}
+              />
+            ) : (
+              <p> Not Specified</p>
+            )}
+          </DetailedItemContainer>
+        </div>
+        <div className="border-t border-b border-pepper">
+          <div className="grid grid-cols-12 [&>div:not(:last-child)]:border-r   *:border-pepper last:border-r-0">
+            {images.map((image, index) => {
+              return (
+                <div className="relative h-36 w-auto" key={index}>
+                  <LazyImage
+                    className="absolute inset-0 w-full size-full"
+                    imageSrc={image.thumb}
+                    alt={title}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
