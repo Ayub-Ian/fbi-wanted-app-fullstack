@@ -5,12 +5,8 @@ const {
   cacheObject,
 } = require("../services/cache");
 const wantedService = require("../services/wanted.service");
-const { applyFilters } = require("../utils/helper.utils");
 
 async function getWantedList(req, res) {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
-
   try {
     const queryKey = new URLSearchParams(req.query).toString();
     let data = getCachedPage(queryKey);
@@ -19,11 +15,10 @@ async function getWantedList(req, res) {
       data = await wantedService.getPaginatedList(req.query);
       cachePage(queryKey, data);
     }
-
-    const filtered = applyFilters(data.items, req.query);
+    
     res.json({
-      total: data.total || filtered.length,
-      items: filtered,
+      total: data.total ,
+      items: data.items,
     });
   } catch (err) {
     console.error(err);
